@@ -6,13 +6,12 @@
 /*   By: jlecomte <jlecomte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 15:09:45 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/11/29 22:28:52 by jlecomte         ###   ########.fr       */
+/*   Updated: 2020/12/03 19:15:41 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 int	read_n_fill(int fd, char *tmp, char **line)
 {
@@ -22,12 +21,12 @@ int	read_n_fill(int fd, char *tmp, char **line)
 	if (rd > 0)
 	{
 		tmp[rd] = 0;
-		if (!get_l(fd, tmp, line))
-			return (-1);
-		return (1);
+		return (get_l(fd, tmp, line));
 	}
 	if (rd == 0)
 		return (0);
+	free(*line);
+	*line = 0;
 	return (-1);
 }
 
@@ -42,7 +41,8 @@ int	get_l(int fd, char *tmp, char **line)
 	{
 		if (!(*line = dynq_strcat(*line, tmp, len_tmp)))
 			return (0);
-		read_n_fill(fd, tmp, line);
+		*tmp = '\0';
+		return (read_n_fill(fd, tmp, line));
 	}
 	else
 	{
@@ -51,7 +51,6 @@ int	get_l(int fd, char *tmp, char **line)
 		ft_memcpy(tmp, tmp + nl + 1, len_tmp - nl);
 		return (1);
 	}
-	return (1);
 }
 
 int	get_next_line(int fd, char **line)
@@ -60,7 +59,8 @@ int	get_next_line(int fd, char **line)
 	int			nl;
 	size_t		len_tmp;
 
-	if (fd < 0 || BUFFER_SIZE < 1 || !line || !(*line = (char *)malloc(1)))
+	if (fd < 0 || fd > 256 || BUFFER_SIZE < 1 || !line
+	|| !(*line = (char *)malloc(1)))
 		return (-1);
 	len_tmp = ft_strlen(tmp);
 	**line = '\0';
@@ -69,10 +69,8 @@ int	get_next_line(int fd, char **line)
 	if ((nl = index_chr(tmp, '\n')) != -1)
 	{
 		free(*line);
-		if (!(*line = (char *)malloc(nl + 1)))
+		if (!(*line = len_strdup(*line, tmp, nl)))
 			return (-1);
-		ft_memcpy(*line, tmp, nl);
-		(*line)[nl] = '\0';
 		ft_memcpy(tmp, (tmp + nl + 1), len_tmp - nl);
 		tmp[len_tmp - nl] = '\0';
 		return (1);

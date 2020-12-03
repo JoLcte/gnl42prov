@@ -6,7 +6,7 @@
 /*   By: jlecomte <jlecomte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:25:12 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/11/29 20:42:53 by jlecomte         ###   ########.fr       */
+/*   Updated: 2020/12/03 19:11:46 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int		get_l(int fd, char *tmp, char **line);
 char	*ft_memcpy(char *dst, char *src, size_t n);
 size_t	ft_strlen(char *s);
 char	*dynq_strcat(char *dst, char *src, int len);
+char	*len_strdup(char *dst, char *src, int len);
 
 #endif

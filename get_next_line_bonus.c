@@ -6,7 +6,7 @@
 /*   By: jlecomte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 14:27:41 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/12/02 18:04:56 by jlecomte         ###   ########.fr       */
+/*   Updated: 2020/12/03 19:22:22 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	read_n_fill(int fd, char *tmp, char **line)
 	if (rd > 0)
 	{
 		tmp[rd] = 0;
-		if (!get_l(fd, tmp, line))
-			return (-1);
-		return (1);
+		return (get_l(fd, tmp, line));
 	}
 	if (rd == 0)
 		return (0);
+	free(*line);
+	*line = 0;
 	return (-1);
 }
 
@@ -42,7 +42,8 @@ int	get_l(int fd, char *tmp, char **line)
 	{
 		if (!(*line = dynq_strcat(*line, tmp, len_tmp)))
 			return (0);
-		read_n_fill(fd, tmp, line);
+		*tmp = '\0';
+		return (read_n_fill(fd, tmp, line));
 	}
 	else
 	{
@@ -51,7 +52,6 @@ int	get_l(int fd, char *tmp, char **line)
 		ft_memcpy(tmp, tmp + nl + 1, len_tmp - nl);
 		return (1);
 	}
-	return (1);
 }
 
 int	get_next_line(int fd, char **line)
@@ -60,20 +60,19 @@ int	get_next_line(int fd, char **line)
 	int			nl;
 	size_t		len_tmp;
 
-	if (fd < 0 || BUFFER_SIZE < 1 || !line || !(*line = (char *)malloc(1)))
+	if (fd < 0 || fd > 256 || BUFFER_SIZE < 1 || !line
+			|| !(*line = (char *)malloc(1)))
 		return (-1);
-	len_tmp = ft_strlen(tmp[fd]);
 	**line = '\0';
-	if (!*tmp)
+	len_tmp = ft_strlen(tmp[fd]);
+	if (!*(tmp[fd]))
 		return (read_n_fill(fd, tmp[fd], line));
 	if ((nl = index_chr(tmp[fd], '\n')) != -1)
 	{
 		free(*line);
-		if (!(*line = (char *)malloc(nl + 1)))
+		if (!(*line = len_strdup(*line, tmp[fd], nl)))
 			return (-1);
-		ft_memcpy(*line, tmp[fd], nl);
-		(*line)[nl] = '\0';
-		ft_memcpy(tmp[fd], (*(tmp + fd) + nl + 1), len_tmp - nl);
+		ft_memcpy(tmp[fd], (tmp[fd] + nl + 1), len_tmp - nl);
 		tmp[fd][len_tmp - nl] = '\0';
 		return (1);
 	}
