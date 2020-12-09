@@ -6,7 +6,7 @@
 /*   By: jlecomte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 18:21:09 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/12/03 19:14:27 by jlecomte         ###   ########.fr       */
+/*   Updated: 2020/12/09 18:07:45 by JoLecomte        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ char	*dynq_strcat(char *dst, char *src, int len)
 
 	if (!src)
 		return (NULL);
-	if (!(swp = (char *)malloc(len_dst + 1)))
-		return (NULL);
-	ft_memcpy(swp, dst, len_dst);
+	swp = dst;
 	swp[len_dst] = '\0';
-	free(dst);
 	if (!(dst = (char *)malloc(len_dst + len + 1)))
 		return (NULL);
 	ft_memcpy(dst, swp, len_dst);
@@ -67,7 +64,7 @@ char	*dynq_strcat(char *dst, char *src, int len)
 	return (dst);
 }
 
-char	*len_strdup(char *dst, char	*src, int len)
+char	*len_strdup(char *dst, char *src, int len)
 {
 	if (!dst || !src)
 		return (NULL);
