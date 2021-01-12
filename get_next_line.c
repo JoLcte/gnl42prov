@@ -6,12 +6,11 @@
 /*   By: jlecomte <jlecomte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 15:09:45 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/12/03 19:15:41 by jlecomte         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:49:24 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
 
 int	read_n_fill(int fd, char *tmp, char **line)
 {
@@ -40,14 +39,14 @@ int	get_l(int fd, char *tmp, char **line)
 	if (nl < 0)
 	{
 		if (!(*line = dynq_strcat(*line, tmp, len_tmp)))
-			return (0);
-		*tmp = '\0';
+			return (-1);
+		*tmp = 0;
 		return (read_n_fill(fd, tmp, line));
 	}
 	else
 	{
 		if (!(*line = dynq_strcat(*line, tmp, nl)))
-			return (0);
+			return (-1);
 		ft_memcpy(tmp, tmp + nl + 1, len_tmp - nl);
 		return (1);
 	}
@@ -59,8 +58,7 @@ int	get_next_line(int fd, char **line)
 	int			nl;
 	size_t		len_tmp;
 
-	if (fd < 0 || fd > 256 || BUFFER_SIZE < 1 || !line
-	|| !(*line = (char *)malloc(1)))
+	if (fd < 0 || BUFFER_SIZE < 1 || !line || !(*line = (char *)malloc(1)))
 		return (-1);
 	len_tmp = ft_strlen(tmp);
 	**line = '\0';
@@ -77,6 +75,6 @@ int	get_next_line(int fd, char **line)
 	}
 	if (!(*line = dynq_strcat(*line, tmp, len_tmp)))
 		return (-1);
-	*tmp = '\0';
+	*tmp = 0;
 	return (read_n_fill(fd, tmp, line));
 }

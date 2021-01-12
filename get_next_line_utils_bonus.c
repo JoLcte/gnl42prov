@@ -6,11 +6,10 @@
 /*   By: jlecomte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 18:21:09 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/12/09 18:07:45 by JoLecomte        ###   ########.fr       */
+/*   Updated: 2021/01/10 10:43:21 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "get_next_line.h"
 
 int		index_chr(char *s, char c)

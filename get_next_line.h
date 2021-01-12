@@ -6,7 +6,7 @@
 /*   By: jlecomte <jlecomte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:25:12 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/12/03 19:11:46 by jlecomte         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:51:42 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 int		get_next_line(int fd, char **line);
 int		read_n_fill(int fd, char *tmp, char **line);
-int		index_chr(char *s, char c);
 int		get_l(int fd, char *tmp, char **line);
+int		index_chr(char *s, char c);
 char	*ft_memcpy(char *dst, char *src, size_t n);
 size_t	ft_strlen(char *s);
 char	*dynq_strcat(char *dst, char *src, int len);

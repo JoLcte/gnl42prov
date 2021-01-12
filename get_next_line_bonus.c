@@ -6,13 +6,11 @@
 /*   By: jlecomte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 14:27:41 by jlecomte          #+#    #+#             */
-/*   Updated: 2020/12/03 19:22:22 by jlecomte         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:52:04 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 int	read_n_fill(int fd, char *tmp, char **line)
 {
@@ -41,14 +39,14 @@ int	get_l(int fd, char *tmp, char **line)
 	if (nl < 0)
 	{
 		if (!(*line = dynq_strcat(*line, tmp, len_tmp)))
-			return (0);
-		*tmp = '\0';
+			return (-1);
+		*tmp = 0;
 		return (read_n_fill(fd, tmp, line));
 	}
 	else
 	{
 		if (!(*line = dynq_strcat(*line, tmp, nl)))
-			return (0);
+			return (-1);
 		ft_memcpy(tmp, tmp + nl + 1, len_tmp - nl);
 		return (1);
 	}
@@ -63,7 +61,7 @@ int	get_next_line(int fd, char **line)
 	if (fd < 0 || fd > 256 || BUFFER_SIZE < 1 || !line
 			|| !(*line = (char *)malloc(1)))
 		return (-1);
-	**line = '\0';
+	**line = 0;
 	len_tmp = ft_strlen(tmp[fd]);
 	if (!*(tmp[fd]))
 		return (read_n_fill(fd, tmp[fd], line));
@@ -78,6 +76,6 @@ int	get_next_line(int fd, char **line)
 	}
 	if (!(*line = dynq_strcat(*line, tmp[fd], len_tmp)))
 		return (-1);
-	*(tmp[fd]) = '\0';
+	*(tmp[fd]) = 0;
 	return (read_n_fill(fd, tmp[fd], line));
 }
