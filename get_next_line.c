@@ -6,14 +6,23 @@
 /*   By: jlecomte <jlecomte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 15:09:45 by jlecomte          #+#    #+#             */
-/*   Updated: 2021/04/13 00:14:48 by jlecomte         ###   ########.fr       */
+/*   Updated: 2021/04/13 00:56:06 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+static char	**init_line(char **line)
+{
+	*line = (char *)malloc(1);
+	if (!*line)
+		return (NULL);
+	**line = 0;
+	return (line);
+}
+
 int	read_n_fill(int fd, char *buf, char **line)
 {
-	ssize_t rd;
+	ssize_t	rd;
 
 	rd = read(fd, buf, BUFFER_SIZE);
 	if (rd > 0)
@@ -59,9 +68,11 @@ int	get_next_line(int fd, char **line)
 	int			nl;
 	const int	l_buf = ft_strlen(buf);
 
-	if (fd < 0 || BUFFER_SIZE < 1 || !line || !(*line = (char *)malloc(1)))
+	if (fd < 0 || fd > 256 || BUFFER_SIZE < 1 || !line)
 		return (-1);
-	**line = 0;
+	line = init_line(line);
+	if (!line)
+		return (-1);
 	if (!*buf)
 		return (read_n_fill(fd, buf, line));
 	nl = index_chr(buf);
