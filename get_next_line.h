@@ -6,7 +6,7 @@
 /*   By: jlecomte <jlecomte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:25:12 by jlecomte          #+#    #+#             */
-/*   Updated: 2021/01/12 17:51:42 by jlecomte         ###   ########.fr       */
+/*   Updated: 2021/04/12 23:17:14 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,21 @@
 #  define BUFFER_SIZE 99
 # endif
 
+/*
+** UTILS
+*/
+
+char	*ft_cpy(char *dst, char *src, int len);
+char	*ft_join(char *dst, char *src, int len);
+int		ft_strlen(char *s);
+int		index_chr(char *s);
+
+/*
+** GET NEXT LINE
+*/
+
+int		get_l(int fd, char *buf, char **line);
 int		get_next_line(int fd, char **line);
-int		read_n_fill(int fd, char *tmp, char **line);
-int		get_l(int fd, char *tmp, char **line);
-int		index_chr(char *s, char c);
-char	*ft_memcpy(char *dst, char *src, size_t n);
-size_t	ft_strlen(char *s);
-char	*dynq_strcat(char *dst, char *src, int len);
-char	*len_strdup(char *dst, char *src, int len);
+int		read_n_fill(int fd, char *buf, char **line);
 
 #endif

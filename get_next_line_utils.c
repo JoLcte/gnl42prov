@@ -6,70 +6,57 @@
 /*   By: jlecomte <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 12:26:20 by jlecomte          #+#    #+#             */
-/*   Updated: 2021/01/12 17:33:39 by jlecomte         ###   ########.fr       */
+/*   Updated: 2021/04/12 23:56:32 by jlecomte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "get_next_line.h"
 
-int		index_chr(char *s, char c)
+int		index_chr(char *s)
 {
 	char *const save = s;
 
 	while (*s)
-		if (*s++ == c)
-			return (s - 1 - save);
+	{
+		if (*s == '\n')
+			return (s - save);
+		++s;
+	}
 	return (-1);
 }
 
-char	*ft_memcpy(char *dst, char *src, size_t n)
+char	*ft_cpy(char *dst, char *src, int len)
 {
-	char	*p_dst;
-	char	*p_src;
-
-	p_dst = dst;
-	p_src = src;
-	while (n--)
-		*p_dst++ = *p_src++;
-	return (dst);
+	const char *save_dst = dst;
+	
+	while (len--)
+		*dst++ = *src++;
+	return ((char *)save_dst);
 }
 
-size_t	ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-	char *const save = s;
+	const char *save = s;
 
-	if (!s)
-		return (0);
 	while (*s)
 		s++;
 	return (s - save);
 }
 
-char	*dynq_strcat(char *dst, char *src, int len)
+char    *ft_join(char *dst, char *src, int len)
 {
-	char			*swp;
-	const size_t	len_dst = ft_strlen(dst);
+    char            *swp;
+    const size_t    len_dst = ft_strlen(dst);
 
-	if (!src)
-		return (NULL);
-	swp = dst;
-	swp[len_dst] = '\0';
-	if (!(dst = (char *)malloc(len_dst + len + 1)))
-		return (NULL);
-	ft_memcpy(dst, swp, len_dst);
-	free(swp);
-	ft_memcpy(dst + len_dst, src, len);
-	dst[len_dst + len] = '\0';
-	return (dst);
-}
-
-char	*len_strdup(char *dst, char *src, int len)
-{
-	if (!dst || !src)
-		return (NULL);
-	if (!(dst = (char *)malloc(len + 1)))
-		return (NULL);
-	ft_memcpy(dst, src, len);
-	dst[len] = '\0';
-	return (dst);
+    swp = dst;
+    dst = (char *)malloc(len_dst + len + 1);
+    if (!dst)
+    {
+        free(swp);
+        return (NULL);
+    }
+    ft_cpy(dst, swp, len_dst);
+    free(swp);
+    ft_cpy(dst + len_dst, src, len);
+    dst[len_dst + len] = 0;
+    return (dst);
 }
