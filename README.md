@@ -1,3 +1,3 @@
 # gnl42prov
 
-This was hell of a brainstorming.
+This was a little brainstorming.
